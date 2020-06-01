@@ -1,6 +1,7 @@
 package gen_hash;
 use strict;
 use warnings;
+use Storable;
 
 our $lf_storable = 'letter.freq';
 our $n2a_storable = 'n2a.map';
