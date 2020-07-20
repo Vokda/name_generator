@@ -8,8 +8,8 @@ use Storable;
 use Data::Dumper;
 use List::Util "sum";
 
-my $first_name_length = $ARGV[0] || 5;
-my $last_name_length = $ARGV[1] || 5;
+my $first_name_length = $ARGV[0] || 6;
+my $last_name_length = scalar(@ARGV) > 1 ? $ARGV[1] : 6;
 
 gen_hash::generate_storable() unless(
 	-e $gen_hash::lf_storable and 
@@ -41,19 +41,24 @@ my $v_p = sum(values(%$vowel_lf));
 # actually generate a name
 
 
-my $full_name = generate_name($first_name_length) . 
-' ' . generate_name($last_name_length);
+my $full_name = generate_name($first_name_length);
+if($last_name_length > 0)
+{
+	$full_name .= ' ' . generate_name($last_name_length);
+}
 
 my $n_l = length $full_name;
-print "name $full_name\n";
-print "length $n_l\n";
+print "$full_name\n";
+#print "length $n_l\n";
 
 sub generate_name
 {
 	my $l = shift;
 	my @name = ();
 
-	push(@name, get_letter());
+	my $c = get_letter();
+	$c = uc($c);
+	push(@name, $c);
 	for(1..$l-1)
 	{
 		push(@name, get_letter(\@name));
